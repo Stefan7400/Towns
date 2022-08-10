@@ -1,0 +1,4 @@
+name: Towns
+version: '${version}'
+main: de.crackyman.towns.TownsMain
+api-version: 1.19

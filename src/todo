@@ -1,0 +1,20 @@
+TODOS:
+    WorldGuard integration
+     - Create Town
+     - Create sub areas for building
+
+Schematic loading tool
+ Um town gebäude zu laden und upgraden
+
+
+Gebäude
+
+-> Bäckerei
+-> 
+
+
+Shared Starting Building:
+    Gebäude was jeder spieler UMSONST hat
+    -> Wie in GTA hide andere Spieler und deren aktionen (sounds) (mit PACKETS??)
+    -> shared inventory
+
