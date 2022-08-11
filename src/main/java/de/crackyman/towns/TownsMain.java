@@ -34,7 +34,7 @@ public final class TownsMain extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        Configuration.getInstance().save();
     }
 
     private void registerListener(){
