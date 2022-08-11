@@ -2,7 +2,7 @@ package de.crackyman.towns;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import de.crackyman.towns.TownPlayer.TownPlayer;
+import de.crackyman.towns.configuration.Configuration;
 import de.crackyman.towns.listener.mainlistener.PlayerJoinListener;
 import de.crackyman.towns.listener.mainlistener.PlayerQuitListener;
 import de.crackyman.towns.persistance.database.Database;
@@ -19,11 +19,13 @@ public final class TownsMain extends JavaPlugin {
     private final Injector injector = Guice.createInjector(new PluginModule());
     private Database database;
 
+    private Configuration configuration;
+
     @Override
     public void onEnable() {
         INSTANCE = this;
        this.database = injector.getInstance(Database.class);
-
+       this.configuration = injector.getInstance(Configuration.class);
 
        registerListener();
     }
