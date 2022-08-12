@@ -1,6 +1,8 @@
 package de.crackyman.towns.persistance.database;
 
 import com.google.inject.Inject;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -12,7 +14,9 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 
-public class Database {
+
+@Singleton
+public class Database{
 
     private Configuration configuration;
 
@@ -53,4 +57,5 @@ public class Database {
     public MongoCollection<Document> getTownPlayerCollection() {
         return this.townPlayerCollection;
     }
+
 }

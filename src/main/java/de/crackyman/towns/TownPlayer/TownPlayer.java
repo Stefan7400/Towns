@@ -2,6 +2,7 @@ package de.crackyman.towns.TownPlayer;
 
 import org.bukkit.entity.Player;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -12,9 +13,9 @@ public class TownPlayer {
 
     private final Player player;
     private int coins;
-    private List<UUID> friendsUUIDList;
     private int xp;
-
+    private List<UUID> friendsUUIDList;
+    private List<UUID> incomingFriendRequests;
 
 
     private boolean isInitialized = false;
@@ -27,6 +28,7 @@ public class TownPlayer {
         this.coins = (int) dataMap.get(TP_COLLECTION_COINS);
         this.friendsUUIDList = (List<UUID>) dataMap.get(TP_COLLECTION_FRIENDS_UUID);
         this.xp = (int) dataMap.get(TP_COLLECTION_XP);
+        this.incomingFriendRequests = (List<UUID>) dataMap.get(TP_COLLECTION_INCOMEING_FRIEND_REQ);
 
         this.isInitialized = true;
     }
@@ -56,6 +58,10 @@ public class TownPlayer {
     }
 
     public void setFriendsUUIDList(List<UUID> friendsUUIDList) {
+        if(friendsUUIDList == null){
+            friendsUUIDList = Collections.emptyList();
+            return;
+        }
         this.friendsUUIDList = friendsUUIDList;
     }
 
@@ -66,4 +72,18 @@ public class TownPlayer {
     public void setXp(int xp) {
         this.xp = xp;
     }
+
+    public List<UUID> getIncomingFriendRequests() {
+        return incomingFriendRequests;
+    }
+
+    public void setIncomingFriendRequests(List<UUID> incomingFriendRequests) {
+        if(incomingFriendRequests == null){
+            this.incomingFriendRequests = Collections.emptyList();
+            return;
+        }
+        this.incomingFriendRequests = incomingFriendRequests;
+    }
+
+
 }

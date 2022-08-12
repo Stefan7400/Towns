@@ -3,12 +3,12 @@ package de.crackyman.towns.persistance.database.townplayer;
 import com.google.inject.Inject;
 import de.crackyman.towns.TownPlayer.TownPlayer;
 import de.crackyman.towns.TownPlayer.utils.TownPlayerUtils;
+import de.crackyman.towns.persistance.database.Callback;
 import de.crackyman.towns.utils.BukkitUtils;
 import org.bson.Document;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
-import java.util.UUID;
 
 public class TownPlayerManager {
 
@@ -21,13 +21,15 @@ public class TownPlayerManager {
     public void initializeTownPlayer(Player player){
         TownPlayer townPlayer = new TownPlayer(player);
         this.townPlayerStorage.storeTownPlayer(townPlayer);
-        BukkitUtils.runAsync(() -> {
-            Optional<Document> documentOptional = this.townPlayerCollectionManager.fetchStoredFromCollection(player.getUniqueId());
-            documentOptional.ifPresentOrElse(document -> townPlayer.initData(TownPlayerUtils.valueParser(document)),() -> {
-                this.townPlayerCollectionManager.addTownPlayerDocument(TownPlayerUtils.createNewTownPlayerDocument(player.getUniqueId()));
-                townPlayer.initData(TownPlayerUtils.fetchInitialDataMap());
-            });
 
+        this.townPlayerCollectionManager.fetchStoredFromCollection(player.getUniqueId(), new Callback<>() {
+            @Override
+            public void onSuccess(Optional<Document> param) {
+                param.ifPresentOrElse(document -> townPlayer.initData(TownPlayerUtils.valueParser(document)), () -> {
+                    townPlayerCollectionManager.addTownPlayerDocument(TownPlayerUtils.createNewTownPlayerDocument(player.getUniqueId()));
+                    townPlayer.initData(TownPlayerUtils.fetchInitialDataMap());
+                });
+            }
         });
     }
 

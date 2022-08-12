@@ -25,12 +25,15 @@ public class TownPlayerStorage {
         return townPlayerStorage.values();
     }
 
-    public static Optional<TownPlayer> fetchTownPlayer(Player player){
-        UUID uuid = player.getUniqueId();
+    public static Optional<TownPlayer> fetchTownPlayer(UUID uuid){
         if(townPlayerStorage.containsKey(uuid)){
             return Optional.of(townPlayerStorage.get(uuid));
         }
         return Optional.empty();
+    }
+
+    public static Optional<TownPlayer> fetchTownPlayer(Player player){
+        return fetchTownPlayer(player.getUniqueId());
     }
 
 }

@@ -46,6 +46,10 @@ public final class TownsMain extends JavaPlugin {
         listeners.forEach(listener -> pm.registerEvents(listener,this));
     }
 
+    private void registerCommands(){
+
+    }
+
     public static TownsMain getINSTANCE() {
         return INSTANCE;
     }

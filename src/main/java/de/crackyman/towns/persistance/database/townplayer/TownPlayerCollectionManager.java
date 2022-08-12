@@ -4,7 +4,9 @@ import com.google.inject.Inject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import de.crackyman.towns.TownPlayer.TownPlayer;
+import de.crackyman.towns.persistance.database.Callback;
 import de.crackyman.towns.persistance.database.Database;
+import de.crackyman.towns.utils.BukkitUtils;
 import org.bson.Document;
 
 import java.util.Optional;
@@ -16,6 +18,7 @@ public class TownPlayerCollectionManager {
     public static final String TP_COLLECTION_FRIENDS_UUID = "friends_uuid";
     public static final String TP_COLLECTION_XP = "townplayer_xp";
 
+    public static final String TP_COLLECTION_INCOMEING_FRIEND_REQ = "incomeing_friend_request";
 
     private final MongoCollection<Document> collection;
 
@@ -25,7 +28,7 @@ public class TownPlayerCollectionManager {
     }
 
     public void addTownPlayerDocument(Document document) {
-        this.collection.insertOne(document);
+        BukkitUtils.runAsync(() -> this.collection.insertOne(document));
     }
 
     public void updateTownPlayerDocument(TownPlayer townPlayer){
@@ -34,7 +37,8 @@ public class TownPlayerCollectionManager {
         Document updatedDoc = new Document().
                 append(TP_COLLECTION_COINS,townPlayer.getCoins())
                 .append(TP_COLLECTION_FRIENDS_UUID, townPlayer.getFriendsUUIDList())
-                .append(TP_COLLECTION_XP, townPlayer.getXp());
+                .append(TP_COLLECTION_XP, townPlayer.getXp())
+                .append(TP_COLLECTION_INCOMEING_FRIEND_REQ,townPlayer.getIncomingFriendRequests());
 
 
         Document setQueryDoc = new Document();
@@ -44,8 +48,11 @@ public class TownPlayerCollectionManager {
 
     }
 
-    public Optional<Document> fetchStoredFromCollection(UUID uuid) {
-        return  Optional.ofNullable(collection.find(Filters.eq("uuid",uuid.toString())).first());
+    public void fetchStoredFromCollection(UUID uuid, Callback<Optional<Document>> callback) {
+        BukkitUtils.runAsync(() -> {
+            callback.onSuccess(Optional.ofNullable(collection.find(Filters.eq("uuid",uuid.toString())).first()));
+        });
+
     }
 
 
