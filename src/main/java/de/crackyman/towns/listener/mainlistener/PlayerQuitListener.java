@@ -1,6 +1,7 @@
 package de.crackyman.towns.listener.mainlistener;
 
 import com.google.inject.Inject;
+import de.crackyman.towns.inventories.manager.IUsedInventoryManager;
 import de.crackyman.towns.persistance.database.townplayer.TownPlayerManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

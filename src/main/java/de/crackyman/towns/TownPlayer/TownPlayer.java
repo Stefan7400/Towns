@@ -1,9 +1,10 @@
 package de.crackyman.towns.TownPlayer;
 
+import de.crackyman.towns.TownPlayer.utils.TownPlayerUtils;
+import org.bson.Document;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,29 +17,26 @@ public class TownPlayer {
     private int xp;
     private List<UUID> friendsUUIDList;
     private List<UUID> incomingFriendRequests;
-
-
+    private boolean allowFriendRequests = true;
     private boolean isInitialized = false;
 
     public TownPlayer(Player player){
         this.player = player;
     }
 
-    public void initData(HashMap<String,Object> dataMap){
-        this.coins = (int) dataMap.get(TP_COLLECTION_COINS);
-        this.friendsUUIDList = (List<UUID>) dataMap.get(TP_COLLECTION_FRIENDS_UUID);
-        this.xp = (int) dataMap.get(TP_COLLECTION_XP);
-        this.incomingFriendRequests = (List<UUID>) dataMap.get(TP_COLLECTION_INCOMEING_FRIEND_REQ);
+
+    public void initData(Document document){
+        this.coins = document.getInteger(TP_COLLECTION_COINS);
+        this.friendsUUIDList = document.getList(TP_COLLECTION_FRIENDS_UUID, UUID.class);
+        this.xp = document.getInteger(TP_COLLECTION_XP);
+        this.incomingFriendRequests = document.getList(TP_COLLECTION_INCOMEING_FRIEND_REQ,UUID.class);
+        this.allowFriendRequests = TownPlayerUtils.handleNullValue(document.getBoolean(TP_ALLOW_FRIEND_REQUESTS),true);
 
         this.isInitialized = true;
     }
 
     public Player getPlayer(){
         return this.player;
-    }
-
-    public void setInitialized(boolean initialized) {
-        isInitialized = initialized;
     }
 
     public boolean isInitialized() {
@@ -85,5 +83,11 @@ public class TownPlayer {
         this.incomingFriendRequests = incomingFriendRequests;
     }
 
+    public boolean isAllowFriendRequests() {
+        return allowFriendRequests;
+    }
 
+    public void setAllowFriendRequests(boolean allowFriendRequests) {
+        this.allowFriendRequests = allowFriendRequests;
+    }
 }

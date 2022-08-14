@@ -2,7 +2,10 @@ package de.crackyman.towns;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import de.crackyman.towns.commands.townplayercommands.FriendsCommand;
+import de.crackyman.towns.commands.townplayercommands.SettingsCommand;
 import de.crackyman.towns.configuration.Configuration;
+import de.crackyman.towns.listener.mainlistener.InventoryClickListener;
 import de.crackyman.towns.listener.mainlistener.PlayerJoinListener;
 import de.crackyman.towns.listener.mainlistener.PlayerQuitListener;
 import de.crackyman.towns.persistance.database.Database;
@@ -28,6 +31,7 @@ public final class TownsMain extends JavaPlugin {
        this.configuration = injector.getInstance(Configuration.class);
 
        registerListener();
+       registerCommands();
     }
 
 
@@ -39,7 +43,8 @@ public final class TownsMain extends JavaPlugin {
 
     private void registerListener(){
         List<Listener> listeners = List.of(injector.getInstance(PlayerJoinListener.class),
-                injector.getInstance(PlayerQuitListener.class));
+                injector.getInstance(PlayerQuitListener.class),
+                injector.getInstance(InventoryClickListener.class));
 
         PluginManager pm = Bukkit.getPluginManager();
 
@@ -47,7 +52,11 @@ public final class TownsMain extends JavaPlugin {
     }
 
     private void registerCommands(){
+       FriendsCommand friendsCommand = injector.getInstance(FriendsCommand.class);
+       getCommand("friends").setExecutor(friendsCommand);
+       getCommand("friends").setTabCompleter(friendsCommand);
 
+       getCommand("settings").setExecutor(injector.getInstance(SettingsCommand.class));
     }
 
     public static TownsMain getINSTANCE() {

@@ -17,8 +17,8 @@ public class TownPlayerCollectionManager {
     public static final String TP_COLLECTION_COINS = "townplayer_coins";
     public static final String TP_COLLECTION_FRIENDS_UUID = "friends_uuid";
     public static final String TP_COLLECTION_XP = "townplayer_xp";
-
     public static final String TP_COLLECTION_INCOMEING_FRIEND_REQ = "incomeing_friend_request";
+    public static final String TP_ALLOW_FRIEND_REQUESTS = "allow_friend_requests";
 
     private final MongoCollection<Document> collection;
 
@@ -38,7 +38,9 @@ public class TownPlayerCollectionManager {
                 append(TP_COLLECTION_COINS,townPlayer.getCoins())
                 .append(TP_COLLECTION_FRIENDS_UUID, townPlayer.getFriendsUUIDList())
                 .append(TP_COLLECTION_XP, townPlayer.getXp())
-                .append(TP_COLLECTION_INCOMEING_FRIEND_REQ,townPlayer.getIncomingFriendRequests());
+                .append(TP_COLLECTION_INCOMEING_FRIEND_REQ,townPlayer.getIncomingFriendRequests())
+                .append(TP_ALLOW_FRIEND_REQUESTS,townPlayer.isAllowFriendRequests());
+
 
 
         Document setQueryDoc = new Document();

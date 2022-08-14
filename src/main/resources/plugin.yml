@@ -2,3 +2,10 @@ name: Towns
 version: '${version}'
 main: de.crackyman.towns.TownsMain
 api-version: 1.19
+commands:
+  friends:
+    usage: /<command>
+    description: Typical friends commands
+  settings:
+    usage: /<command>
+    description: Opens the settings menu
